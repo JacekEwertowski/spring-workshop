@@ -1,4 +1,4 @@
-package com.kedzier.caching.task1;
+package com.kedzier.caching.task2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,31 +8,41 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
+import java.util.Collection;
+
 @SpringBootApplication
 @EnableCaching
-public class Task1Application implements CommandLineRunner {
+public class Task2Application implements CommandLineRunner {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Task1Application.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Task2Application.class);
 
     @Autowired
     private CarRepository carRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(Task1Application.class, args);
+        SpringApplication.run(Task2Application.class, args);
     }
 
     @Override
     public void run(String... strings) throws Exception {
+        printCarsCount();
+        printCarsCount();
         printCar(1L);
         printCar(1L);
-        printCar(2L);
-        printCar(2L);
         Car myNewCar = new Car(100L, "red", "new one");
         carRepository.add(myNewCar);
         printCar(myNewCar.getId());
+        printCarsCount();
         carRepository.delete(myNewCar);
         printCar(myNewCar.getId());
+        printCarsCount();
 
+    }
+
+    private void printCarsCount() {
+        LOG.info("> About to print cars count");
+        Collection<Car> cars = carRepository.getAll();
+        LOG.info("> [{}] cars found", cars.size());
     }
 
     private void printCar(Long id) {

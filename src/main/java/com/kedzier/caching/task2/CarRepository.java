@@ -1,4 +1,6 @@
-package com.kedzier.caching.task1;
+package com.kedzier.caching.task2;
+
+import java.util.Collection;
 
 /**
  * @author kedzierm
@@ -10,5 +12,7 @@ public interface CarRepository {
     Car add(Car car);
 
     void delete(Car car);
+
+    Collection<Car> getAll();
 
 }

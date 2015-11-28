@@ -1,4 +1,4 @@
-package com.kedzier.caching.task1;
+package com.kedzier.caching.task2;
 
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * @author kedzierm
@@ -29,6 +30,12 @@ public class CacheableCarRepository implements CarRepository {
         new Car(8l, "red", "car8"),     //
         new Car(9l, "black", "car9"),     //
         new Car(10l, "red", "car10"));    //
+
+    @Override
+    public Collection<Car> getAll() {
+        LOG.debug("*** Fetching all cars ***");
+        return new TreeSet<>(cars);
+    }
 
     @Override
     @Cacheable("cars")
