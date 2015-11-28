@@ -1,4 +1,4 @@
-package com.kedzier.caching.task2;
+package com.kedzier.caching.task3;
 
 import java.util.Objects;
 

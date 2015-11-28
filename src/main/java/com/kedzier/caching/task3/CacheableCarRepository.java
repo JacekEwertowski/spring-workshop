@@ -1,4 +1,4 @@
-package com.kedzier.caching.task2;
+package com.kedzier.caching.task3;
 
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -31,6 +31,13 @@ public class CacheableCarRepository implements CarRepository {
         new Car(8l, "red", "car8"),     //
         new Car(9l, "black", "car9"),     //
         new Car(10l, "red", "car10"));    //
+
+    @Override
+    public Collection<Car> getByIds(Long... id) {
+        // TODO implement
+        LOG.debug("*** NO IMPLEMENTATION PROVIDED ***");
+        return new TreeSet<>();
+    }
 
     @Override
     @Cacheable(value = "cars", key = "'all'")

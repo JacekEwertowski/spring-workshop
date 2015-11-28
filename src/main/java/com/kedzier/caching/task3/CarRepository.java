@@ -1,4 +1,4 @@
-package com.kedzier.caching.task2;
+package com.kedzier.caching.task3;
 
 import java.util.Collection;
 
@@ -14,5 +14,7 @@ public interface CarRepository {
     void delete(Car car);
 
     Collection<Car> getAll();
+
+    Collection<Car> getByIds(Long... id);
 
 }
