@@ -15,6 +15,6 @@ public interface CarRepository {
 
     Collection<Car> getAll();
 
-    Collection<Car> getByIds(Long... id);
+    Collection<Car> getByIds(Long... ids);
 
 }
