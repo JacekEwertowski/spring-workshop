@@ -2,11 +2,14 @@ package com.kedzier.async.task2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.Future;
 
 /**
  * @author kedzierm
@@ -16,7 +19,8 @@ public class Calculator {
 
     private static final Logger LOG = LoggerFactory.getLogger(Calculator.class);
 
-    public Map<Integer, Integer> calculateRandomDistribution() {
+    @Async("my")
+    public Future<Map<Integer, Integer>> calculateRandomDistribution() {
         Map<Integer, Integer> countMap = new HashMap<>();
         Random random = new Random();
 
@@ -30,7 +34,7 @@ public class Calculator {
             }
         }
         LOG.debug("Calculation finished");
-        return countMap;
+        return new AsyncResult<>(countMap);
     }
 
 
