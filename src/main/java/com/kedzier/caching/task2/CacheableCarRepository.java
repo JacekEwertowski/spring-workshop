@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -32,6 +33,7 @@ public class CacheableCarRepository implements CarRepository {
         new Car(10l, "red", "car10"));    //
 
     @Override
+    @Cacheable(value = "cars", key = "'all'")
     public Collection<Car> getAll() {
         LOG.debug("*** Fetching all cars ***");
         return new TreeSet<>(cars);
@@ -46,6 +48,7 @@ public class CacheableCarRepository implements CarRepository {
 
     @Override
     @CachePut(value = "cars", key = "#car.id")
+    @CacheEvict(value = "cars", key = "'all'")
     public Car add(Car car) {
         LOG.debug("> Adding car [{}]", car);
         cars.add(car);
@@ -53,7 +56,10 @@ public class CacheableCarRepository implements CarRepository {
     }
 
     @Override
-    @CacheEvict(value = "cars", key = "#car.id")
+    @Caching(evict = {
+        @CacheEvict(value = "cars", key = "#car.id"),
+        @CacheEvict(value = "cars", key = "'all'")
+    })
     public void delete(Car car) {
         LOG.debug("> Deleting car [{}]", car);
         cars.remove(car);
