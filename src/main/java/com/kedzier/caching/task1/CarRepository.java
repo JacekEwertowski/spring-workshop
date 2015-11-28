@@ -7,7 +7,7 @@ public interface CarRepository {
 
     Car getById(Long id);
 
-    void add(Car car);
+    Car add(Car car);
 
     void delete(Car car);
 

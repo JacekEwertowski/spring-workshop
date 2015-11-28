@@ -3,6 +3,9 @@ package com.kedzier.caching.task1;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -28,18 +31,22 @@ public class CacheableCarRepository implements CarRepository {
         new Car(10l, "red", "car10"));    //
 
     @Override
+    @Cacheable("cars")
     public Car getById(Long id) {
         LOG.debug("*** Searching for car with id [{}] ***", id);
         return cars.stream().filter(car -> car.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public void add(Car car) {
+    @CachePut(value = "cars", key = "#car.id")
+    public Car add(Car car) {
         LOG.debug("> Adding car [{}]", car);
         cars.add(car);
+        return car;
     }
 
     @Override
+    @CacheEvict(value = "cars", key = "#car.id")
     public void delete(Car car) {
         LOG.debug("> Deleting car [{}]", car);
         cars.remove(car);
