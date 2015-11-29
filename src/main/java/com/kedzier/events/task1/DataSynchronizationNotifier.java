@@ -15,7 +15,7 @@ public class DataSynchronizationNotifier {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataSynchronizationNotifier.class);
 
-    @EventListener
+    @EventListener(condition = "#event.syncDate.getTime() % 2 == 0")
     public void sendNotification(DataSynchronizedEvent event) {
         String notificationContent = prepareContent(event.getSyncDate());
         LOG.info("> Sending data synchronized notification: [{}]", notificationContent);

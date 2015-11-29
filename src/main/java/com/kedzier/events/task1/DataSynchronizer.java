@@ -1,12 +1,13 @@
 package com.kedzier.events.task1;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 /**
  * @author kedzierm
@@ -19,6 +20,7 @@ public class DataSynchronizer {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Scheduled(cron = "0/3 * * * * ?")
     public void synchronizeData() {
 
         LOG.debug("> Synchronizing data...");
