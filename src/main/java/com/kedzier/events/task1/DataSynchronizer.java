@@ -1,8 +1,11 @@
 package com.kedzier.events.task1;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,10 +17,7 @@ public class DataSynchronizer {
     private static final Logger LOG = LoggerFactory.getLogger(DataSynchronizer.class);
 
     @Autowired
-    private DataSynchronizationNotifier notifier;
-
-    @Autowired
-    private DataSynchronizedWatcher watcher;
+    private ApplicationEventPublisher eventPublisher;
 
     public void synchronizeData() {
 
@@ -26,8 +26,7 @@ public class DataSynchronizer {
         LOG.debug("< Synchronized.");
 
         // when data are synchronized few another things must happen
-        notifier.sendNotification();
-        watcher.markDataSynchronized();
+       eventPublisher.publishEvent(new DataSynchronizedEvent(new Date()));
 
 
     }

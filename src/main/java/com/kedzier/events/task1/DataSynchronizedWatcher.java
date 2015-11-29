@@ -2,6 +2,7 @@ package com.kedzier.events.task1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -17,10 +18,11 @@ public class DataSynchronizedWatcher {
     private boolean isDataSynchronized = false;
     private Date lastDataSynchronization = null;
 
-    public void markDataSynchronized() {
-        LOG.info("> Marking data as synchronized");
+    @EventListener
+    public void markDataSynchronized(DataSynchronizedEvent event) {
+        LOG.info("> Marking data as synchronized, date [{}]", event.getSyncDate());
         isDataSynchronized = true;
-        lastDataSynchronization = new Date();
+        lastDataSynchronization = event.getSyncDate();
     }
 
     public boolean isDataSynchronized() {

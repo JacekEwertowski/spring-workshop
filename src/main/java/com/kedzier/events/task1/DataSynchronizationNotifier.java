@@ -2,6 +2,7 @@ package com.kedzier.events.task1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -14,14 +15,15 @@ public class DataSynchronizationNotifier {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataSynchronizationNotifier.class);
 
-    public void sendNotification() {
-        String notificationContent = prepareContent();
+    @EventListener
+    public void sendNotification(DataSynchronizedEvent event) {
+        String notificationContent = prepareContent(event.getSyncDate());
         LOG.info("> Sending data synchronized notification: [{}]", notificationContent);
 
     }
 
-    private String prepareContent() {
-        return "Data synchronized on " + new Date();
+    private String prepareContent(Date syncDate) {
+        return "Data synchronized on " + syncDate;
     }
 
 }
