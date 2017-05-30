@@ -1,5 +1,7 @@
 package com.kedzier.async.task1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,8 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 public class AsyncConfiguration implements AsyncConfigurer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AsyncConfiguration.class);
 
     @Override
     public Executor getAsyncExecutor() {
@@ -30,7 +34,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return null;
+        return (throwable, method, objects) -> LOG.error("Error while executing async method", throwable);
     }
 
 }
