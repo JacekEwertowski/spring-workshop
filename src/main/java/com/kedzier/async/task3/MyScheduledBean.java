@@ -28,20 +28,17 @@ public class MyScheduledBean {
 
     void myMethod() {
 
-        scheduler.schedule(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String now = htmlReader.readHtml(new URL("http://onet.pl"));
-                    if (now.equals(last)) {
-                        LOG.info("not changed");
-                    } else {
-                        last = now;
-                        LOG.info("changed");
-                    }
-                } catch (IOException e) {
-                    LOG.error("error occurs", e);
+        scheduler.schedule(() -> {
+            try {
+                String now = htmlReader.readHtml(new URL("http://onet.pl"));
+                if (now.equals(last)) {
+                    LOG.info("not changed");
+                } else {
+                    last = now;
+                    LOG.info("changed");
                 }
+            } catch (IOException e) {
+                LOG.error("error occurs", e);
             }
         }, new CronTrigger("0/5 * * * * ?"));
     }
